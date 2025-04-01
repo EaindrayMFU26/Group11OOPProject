@@ -9,10 +9,11 @@ import java.time.ZoneId;
 import java.util.*;
 
 /**
- * `FinanceManager`:
- * - Implements Interfaces: Implements FinanceManagerInterface and FileOperations
- * - Uses Collections: Uses List<Transaction> to store transactions
- * - Exception Handling: Catches invalid inputs and ensures robust execution
+ * Interface FinanceManagerInterface:
+ * - **Extends** FileOperations for file management.
+ * - Defines core functionalities of FinanceManager.
+ *
+ * **No Compilation Needed:** This is an interface and will be compiled when used in a class.
  */
 public class FinanceManager {
     private List<Transaction> transactions;
@@ -23,7 +24,7 @@ public class FinanceManager {
     private List<String> incomeCategories;
     private List<String> expenseCategories;
 
-    // Constructor
+    // Constructor initializes budget and predefined categories
     public FinanceManager() {
         transactions = new ArrayList<>();
         scanner = new Scanner(System.in);
@@ -34,13 +35,22 @@ public class FinanceManager {
         expenseCategories = new ArrayList<>(Arrays.asList("Food", "Rent", "Entertainment", "Bills", "Shopping"));
     }
 
+
+    /**
+     * **Set Monthly Budget**
+     * - Prompts user for a budget and stores it.
+     */
     public void setBudget() {
         System.out.print("Enter your monthly budget: ");
         budget = getValidDoubleInput();
         System.out.println("Budget set to: $" + budget);
     }
 
-    // Add a transaction
+    /**
+     * **Add Transaction**
+     * - Allows user to enter an `Income` or `Expense`.
+     * - Uses method `chooseCategory()` to assign categories.
+     */
     public void addTransaction() {
         System.out.print("Enter transaction type (1-Income, 2-Expense): ");
         int type = getValidIntInput(1, 2);
@@ -65,6 +75,7 @@ public class FinanceManager {
         transactions.add(transaction);
         System.out.println("Transaction added successfully!");
 
+        // **Budget Warning System**
         if (totalExpenses > budget * 0.9 && totalExpenses <= budget) {
             System.out.println("⚠ Warning: Your expenses are close to exceeding your budget!");
         }
@@ -73,6 +84,10 @@ public class FinanceManager {
         }
     }
 
+    /**
+     * **Display Transactions**
+     * - Prints all transactions stored in the system.
+     */
     public void displayTransactions() {
         if (transactions.isEmpty()) {
             System.out.println("No transactions recorded.");
@@ -96,7 +111,12 @@ public class FinanceManager {
         System.out.println("Net Savings: $" + savings);
     }
 
-    // Delete a transaction
+    
+     /**
+     * **Delete a Transaction**
+     * - User selects a transaction to remove.
+     * - Adjusts total income/expenses accordingly.
+     */
     public void deleteTransaction() {
         if (transactions.isEmpty()) {
             System.out.println("No transactions to delete.");
@@ -193,6 +213,11 @@ public class FinanceManager {
     }
 
     // Save transactions to file
+    /**
+     * **Save Data to File**
+     * - Saves transactions, budget, and categories for later use.
+     */
+
     public void saveToFile(String filename) throws IOException {
         try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(filename))) {
             oos.writeObject(transactions);
@@ -204,7 +229,11 @@ public class FinanceManager {
         }
     }
 
-    // Load transactions from file
+    /**
+     * **Load Data from File**
+     * - Retrieves previously saved data.
+     */
+
     @SuppressWarnings("unchecked")
     public void loadFromFile(String filename) throws IOException, ClassNotFoundException {
         try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(filename))) {

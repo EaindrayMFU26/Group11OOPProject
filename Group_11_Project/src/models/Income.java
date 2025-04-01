@@ -3,17 +3,20 @@ package models;
 
 /**
  * Class Income:
- * - **Inheritance**: Extends Transaction class
- * - **Polymorphism**: Overrides `getType()` method
+ * **Compilation Command:**
+ * javac -d out -cp src src/models/Income.java
  */
 
-public class Income extends Transaction {
+
+public class Income extends Transaction // **Inheritance**: Extends `Transaction` class.
+ {
     public Income(String description, double amount, String category) {
         super(description, amount, category);
     }
 
     @Override
-    public String getType() {
+    public String getType() //- **Polymorphism**: Overrides `getType()` method.
+    {
         return "Income";
     }
 }

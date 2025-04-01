@@ -5,19 +5,23 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
 /**
- * Abstract class Transaction: 
- * - Implements **Polymorphism** (Different transactions behave differently)
- * - Implements **Serializable** (Allows saving to file)
+ * Abstract class Transaction:
+ * - Implements **Polymorphism** (Different transactions behave differently).
+ *
+ * **Compilation Command:**
+ * javac -d out -cp src src/models/Transaction.java
  */
+  
 
-public abstract class Transaction implements Serializable {
+public abstract class Transaction implements Serializable// -Implements **Serializable** (Allows saving to file).
+ {
     private static final long serialVersionUID = 1L;
-    
     protected String description;
     protected double amount;
     protected String category;
     protected LocalDateTime timestamp;
 
+     // Constructor with validation
     public Transaction(String description, double amount, String category) {
         if (description.matches("\\d+")) {
             throw new IllegalArgumentException("Description cannot be only numbers!");
@@ -25,10 +29,10 @@ public abstract class Transaction implements Serializable {
         this.description = description;
         this.amount = amount;
         this.category = category;
-        this.timestamp = LocalDateTime.now();
+        this.timestamp = LocalDateTime.now();  // Automatically stores current timestamp
     }
 
-    public abstract String getType();
+    public abstract String getType();  // Must be implemented by child classes
 
     public String getDescription() {
         return description;
